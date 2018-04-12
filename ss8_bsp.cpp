@@ -23,4 +23,5 @@ void SS8_BSP_::vSetupIO(void)
   pinMode(iPUPD3, INPUT); // so at startup the pull up/downs are disabled
 
   pLEDs.vSetup(D0); /* Setup LEDs */
+  pLSOUT.vSetup(A1);
 }

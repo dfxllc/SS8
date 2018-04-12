@@ -13,12 +13,15 @@ class DFX_INPUT
     uint8_t _inputpin;
     uint8_t _pullupdownpin;
     INPUT_MODE _mode;
-    
+    void (*pfValueChangedCallBack)(int);
+    int iPreviousValue = 0;
+
     public:
     DFX_INPUT(uint8_t inputpin, uint8_t pullupdownpin); // The constructor
     DFX_INPUT(uint8_t inputpin, uint8_t pullupdownpin, INPUT_MODE mode);
-    
     void SetMode(INPUT_MODE mode);
     int iRead();
+    void vSetupCallbackOnChange(void (*pFunction)(int));
+
 };
 #endif

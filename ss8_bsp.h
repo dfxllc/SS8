@@ -4,6 +4,8 @@
 #include "DFX_NCV7240.h"
 #include "LSOUT.h"
 #include "DFX_MODBUS.h"
+#include "LEDS.h"
+#include "DFX_INPUT.h"
 
 #define iRS485_nRE D7
 #define iRS485_DE D6
@@ -24,7 +26,8 @@ class SS8_BSP_
 {
 	public:
   void vSetupIO(void);
-	LSOUT lsout;
+	LEDS pLEDs;
+	LSOUT pLSOUT;
 	ModbusMaster ModBus;
 	private:
 

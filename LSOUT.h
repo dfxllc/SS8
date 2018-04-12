@@ -11,14 +11,14 @@ class LSOUT
 {
     private:
     DFX_NCV7240 *_pLS;
-    
+
     public:
-    LSOUT(uint8_t nCS); // The constructor
-    
+    void vSetup(uint8_t nCS); // The constructor
+
     void TurnOn(LSOUT_ID id);
-        
+
     void TurnOff(LSOUT_ID id);
-    
+
     void SetAll(LSOUT_STATE state);
 };
 #endif

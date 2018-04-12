@@ -2,7 +2,7 @@
 #include "LSOUT.h"
 
 
-LSOUT::LSOUT(uint8_t nCS) // The constructor
+void LSOUT::vSetup(uint8_t nCS) // The constructor
 {
    _pLS = new DFX_NCV7240(nCS);
 };
@@ -11,7 +11,7 @@ void LSOUT::TurnOn(LSOUT_ID id)
 {
    _pLS->TurnOn(uint8_t(id));
 };
-    
+
 void LSOUT::TurnOff(LSOUT_ID id)
 {
    _pLS->TurnOff(uint8_t(id));
