@@ -17,8 +17,7 @@ class DFX_INPUT
     int iPreviousValue = 0;
 
     public:
-    DFX_INPUT(uint8_t inputpin, uint8_t pullupdownpin); // The constructor
-    DFX_INPUT(uint8_t inputpin, uint8_t pullupdownpin, INPUT_MODE mode);
+    DFX_INPUT(uint8_t inputpin, uint8_t pullupdownpin);
     void SetMode(INPUT_MODE mode);
     int iRead();
     void vSetupCallbackOnChange(void (*pFunction)(int));

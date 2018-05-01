@@ -5,8 +5,8 @@
 
 void DFX_INPUT::SetMode(INPUT_MODE mode)
 {
-    _mode = mode;
-    switch (_mode)
+    _mode = mode; /* Make note of mode so we can use it in iRead */
+    switch (mode)
     {
         case eIN_MODE_BATT: // Enable pull down - digital input
             pinMode(_inputpin, INPUT);
@@ -17,7 +17,7 @@ void DFX_INPUT::SetMode(INPUT_MODE mode)
         case eIN_MODE_GND: // Enable pull up - digital input
             pinMode(_inputpin, INPUT);
             pinMode(_pullupdownpin, OUTPUT);
-            digitalWrite(_pullupdownpin, LOW);
+            digitalWrite(_pullupdownpin, HIGH);
             break;
 
         case eIN_MODE_ANALOG: // Disable pull up/down - analog input
@@ -35,14 +35,6 @@ DFX_INPUT::DFX_INPUT(uint8_t inputpin, uint8_t pullupdownpin)
     pfValueChangedCallBack = NULL;
 }
 
-DFX_INPUT::DFX_INPUT(uint8_t inputpin, uint8_t pullupdownpin, INPUT_MODE mode)
-{
-    _inputpin = inputpin;
-    _pullupdownpin = pullupdownpin;
-    pfValueChangedCallBack = NULL;
-    SetMode(mode);
-}
-
 void DFX_INPUT::vSetupCallbackOnChange(void (*pFunction)(int))
 {
   pfValueChangedCallBack = pFunction;
@@ -55,8 +47,11 @@ int DFX_INPUT::iRead()
     switch (_mode)
     {
         case eIN_MODE_BATT:
+          iReadValue = (digitalRead(_inputpin) == TRUE) ? TRUE : FALSE;
+          break;
+
         case eIN_MODE_GND:
-            iReadValue = (digitalRead(_inputpin) == TRUE) ? 0xffff : 0;
+            iReadValue = (digitalRead(_inputpin) == FALSE) ? TRUE : FALSE;
             break;
 
         case eIN_MODE_ANALOG:

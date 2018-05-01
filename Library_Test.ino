@@ -21,9 +21,9 @@ char buf[100];
 CANChannel can(CAN_D1_D2);
 
 /* Setup Digital/Analog Inputs */
-DFX_INPUT ss8_input1(WKP, D5, eIN_MODE_BATT);
-DFX_INPUT ss8_input2(DAC, D4, eIN_MODE_BATT);
-DFX_INPUT ss8_input3(A0,  D3, eIN_MODE_BATT);
+DFX_INPUT ss8_input1(WKP, D5);
+DFX_INPUT ss8_input2(DAC, D4);
+DFX_INPUT ss8_input3(A0,  D3);
 
 int iInput1 = 0;
 int iInput2 = 0;
@@ -44,6 +44,10 @@ void setup() {
   Particle.function("hbridge", iHBridgeModbusCloudFunctionHandler);
   Particle.function("modbus", iGenericModbusCloudFunctionHandler);
   Particle.subscribe("lsout", vLSOUTCloudHanlder); // Subscribe to all things starting with the chars "lsout"
+
+  ss8_input1.SetMode(eIN_MODE_GND);
+  ss8_input2.SetMode(eIN_MODE_GND);
+  ss8_input3.SetMode(eIN_MODE_GND);
 
   /* Setup Input State Change Callback Functions */
   ss8_input1.vSetupCallbackOnChange(&vInput1ChangeCallback);
@@ -69,8 +73,7 @@ void loop() {
   vTestLEDs();
   iInput1 = ss8_input1.iRead();
   iInput2 = ss8_input2.iRead();
-//  iInput3 = ss8_input3.iRead();
-  iInput3 = 0;
+  iInput3 = ss8_input3.iRead();
 }
 
 static void vTestCANMessageTX(void)
@@ -288,15 +291,15 @@ void vLSOUTCloudHanlder(const char *event, const char *data)
 
 void vInput1ChangeCallback(int iCurrentValue)
 {
-  Spark.publish("Input 1:", (iCurrentValue) ? "True" : "False", 60, PRIVATE);
+  Spark.publish("Input 1:", (iCurrentValue) ? "Active" : "InActive", 60, PRIVATE);
 }
 
 void vInput2ChangeCallback(int iCurrentValue)
 {
-  Spark.publish("Input 2:", (iCurrentValue) ? "True" : "False", 60, PRIVATE);
+  Spark.publish("Input 2:", (iCurrentValue) ? "Active" : "InActive", 60, PRIVATE);
 }
 
 void vInput3ChangeCallback(int iCurrentValue)
 {
-  Spark.publish("Input 3:", (iCurrentValue) ? "True" : "False", 60, PRIVATE);
+  Spark.publish("Input 3:", (iCurrentValue) ? "Active" : "InActive", 60, PRIVATE);
 }
